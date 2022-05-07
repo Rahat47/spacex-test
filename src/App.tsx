@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { fetchMissions } from './api';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useAppDispatch();
+    const { data, error, loading } = useAppSelector(state => state.mission);
+
+    useEffect(() => {
+        dispatch(fetchMissions());
+    }, [dispatch]);
+
+    return (
+        <div className='App'>
+            <h1>
+                Hello World <br />
+                {loading && <span>Loading...</span>}
+                {error && <span>Error! {error} </span>}
+                {data && <span>{data.length}</span>}
+            </h1>
+        </div>
+    );
 }
 
 export default App;
