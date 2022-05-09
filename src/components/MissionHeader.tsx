@@ -20,7 +20,7 @@ function MissionHeader() {
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box p='8' bg='whatsapp.200' rounded='md'>
+        <Box p='8' bg={mode('whatsapp.200', 'whatsapp.700')} rounded='md'>
             <Box maxW='7xl' mx='auto'>
                 <Stack
                     spacing='5'
@@ -61,14 +61,13 @@ function MissionHeader() {
                                 md: '80',
                             }}
                             w='full'
-                            colorScheme='whatsapp'
                         >
                             <InputRightElement color='gray.400'>
                                 <FiSearch />
                             </InputRightElement>
                             <Input
-                                bg={mode('white', 'gray.800')}
                                 placeholder='Search for a mission'
+                                borderColor={mode('gray.400', 'gray.500')}
                             />
                         </InputGroup>
 

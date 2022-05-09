@@ -1,6 +1,6 @@
 import { Container } from '@chakra-ui/react';
 import { useEffect } from 'react';
-import { fetchMissions } from './api';
+import fetchMissions from './api';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import HeadingComp from './containers/Heading';
 import MissionsContainer from './containers/MissionsContainer';

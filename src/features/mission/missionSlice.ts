@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchMissions } from '../../api';
+import fetchMissions from '../../api';
 import { RootState } from '../../app/store';
 import { Mission } from '../../types';
 
@@ -29,7 +29,7 @@ export const missionSlice = createSlice({
             state.error = null;
         });
 
-        builder.addCase(fetchMissions.rejected, (state, action) => {
+        builder.addCase(fetchMissions.rejected, state => {
             state.loading = false;
             state.error = 'Failed to fetch missions';
         });
