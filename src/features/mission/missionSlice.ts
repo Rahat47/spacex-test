@@ -7,10 +7,12 @@ const initialState: {
     loading: boolean;
     error: string | null;
     data: Mission[] | null;
+    rawData: Mission[] | null;
 } = {
     loading: false,
     error: null,
     data: null,
+    rawData: null,
 };
 
 export const missionSlice = createSlice({
@@ -26,6 +28,7 @@ export const missionSlice = createSlice({
         builder.addCase(fetchMissions.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
+            state.rawData = action.payload;
             state.error = null;
         });
 

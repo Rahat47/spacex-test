@@ -12,8 +12,10 @@ import {
     useColorMode,
     useColorModeValue as mode,
 } from '@chakra-ui/react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
+import { debounce } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import Filters from './Filters';
 import { setSearchValue } from '../features/filter/filterSlice';
@@ -23,21 +25,33 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
     const { data } = useAppSelector(state => state.mission);
     const { searchValue } = useAppSelector(state => state.filter);
     const { colorMode, toggleColorMode } = useColorMode();
+    const [searchTerm, setSearchTerm] = useState(searchValue);
 
+    const changeHandler: React.ChangeEventHandler<HTMLInputElement> = e =>
+        setSearchTerm(e.target.value);
+
+    const debouncedChangeHandler = useMemo(
+        () => debounce(changeHandler, 300),
+        []
+    );
+
+    useEffect(() => {
+        if (searchTerm) {
+            dispatch(setSearchValue(searchTerm));
+        }
+
+        return () => {
+            debouncedChangeHandler.cancel();
+        };
+    }, [dispatch, searchTerm, debouncedChangeHandler]);
     return (
         <Box p='8' bg={mode('twitter.400', 'gray.700')} rounded='md'>
             <Box maxW='7xl' mx='auto'>
                 <Stack
                     spacing='5'
-                    direction={{
-                        base: 'column',
-                        md: 'row',
-                    }}
+                    direction={{ base: 'column', md: 'row' }}
                     justify='space-between'
-                    align={{
-                        base: 'flex-start',
-                        md: 'center',
-                    }}
+                    align={{ base: 'flex-start', md: 'center' }}
                 >
                     <Stack>
                         <Heading size='lg'>Missions</Heading>
@@ -53,21 +67,10 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
                     <HStack
                         justify='flex-end'
                         flex='1'
-                        w={{
-                            base: 'full',
-                            md: 'auto',
-                        }}
-                        spacing={{
-                            base: '2',
-                            md: '4',
-                        }}
+                        w={{ base: 'full', md: 'auto' }}
+                        spacing={{ base: '2', md: '4' }}
                     >
-                        <InputGroup
-                            maxW={{
-                                md: '80',
-                            }}
-                            w='full'
-                        >
+                        <InputGroup maxW={{ md: '80' }} w='full'>
                             <InputRightElement>
                                 <FiSearch />
                             </InputRightElement>
@@ -76,10 +79,7 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
                                 _placeholder={{
                                     color: mode('gray.600', 'gray.400'),
                                 }}
-                                value={searchValue}
-                                onChange={e =>
-                                    dispatch(setSearchValue(e.target.value))
-                                }
+                                onChange={debouncedChangeHandler}
                             />
                         </InputGroup>
 

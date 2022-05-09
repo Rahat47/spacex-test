@@ -19,11 +19,6 @@ function Filters() {
         state => state.filter
     );
 
-    console.log({
-        launchDate,
-        launchSuccess,
-        upcoming,
-    });
     return (
         <HStack spacing={8}>
             <FormControl>
