@@ -1,24 +1,25 @@
+import { Container } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { fetchMissions } from './api';
 import { useAppDispatch, useAppSelector } from './app/hooks';
+import HeadingComp from './containers/Heading';
+import MissionsContainer from './containers/MissionsContainer';
 
 function App() {
     const dispatch = useAppDispatch();
-    const { data, error, loading } = useAppSelector(state => state.mission);
+    const { data } = useAppSelector(state => state.mission);
 
     useEffect(() => {
-        dispatch(fetchMissions());
-    }, [dispatch]);
+        if (!data) {
+            dispatch(fetchMissions());
+        }
+    }, [dispatch, data]);
 
     return (
-        <div className='App'>
-            <h1>
-                Hello World <br />
-                {loading && <span>Loading...</span>}
-                {error && <span>Error! {error} </span>}
-                {data && <span>{data.length}</span>}
-            </h1>
-        </div>
+        <Container maxW='full'>
+            <HeadingComp />
+            <MissionsContainer />
+        </Container>
     );
 }
 
