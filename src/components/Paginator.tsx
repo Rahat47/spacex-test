@@ -1,4 +1,4 @@
-import { Center, chakra, CSSObject } from '@chakra-ui/react';
+import { Center, chakra, CSSObject, Skeleton } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useAppSelector } from '../app/hooks';
@@ -6,6 +6,7 @@ import { Mission } from '../types';
 
 interface PaginatorProps {
     setItems: React.Dispatch<React.SetStateAction<Mission[]>>;
+    setOffset: React.Dispatch<React.SetStateAction<[number, number]>>;
 }
 
 const ChakraPaginator = chakra(ReactPaginate);
@@ -50,7 +51,7 @@ const styles: CSSObject = {
     },
 };
 
-function Paginator({ setItems }: PaginatorProps) {
+function Paginator({ setItems, setOffset }: PaginatorProps) {
     const { data } = useAppSelector(state => state.mission);
     const itemsPerPage = 9;
 
@@ -61,8 +62,9 @@ function Paginator({ setItems }: PaginatorProps) {
             const endOffset = itemOffset + itemsPerPage;
             setItems(data.slice(itemOffset, endOffset));
             setPageCount(Math.ceil(data.length / itemsPerPage));
+            setOffset([itemOffset, endOffset]);
         }
-    }, [data, itemOffset, itemsPerPage, setItems]);
+    }, [data, itemOffset, itemsPerPage, setItems, setOffset]);
 
     const handlePageClick = (event: { selected: number }) => {
         if (data) {
@@ -74,19 +76,23 @@ function Paginator({ setItems }: PaginatorProps) {
 
     return (
         <Center my={4}>
-            <ChakraPaginator
-                breakLabel='...'
-                nextLabel='Next'
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={pageCount}
-                previousLabel='Previous'
-                display='flex'
-                alignItems='stretch'
-                justifyContent='center'
-                listStyleType='none'
-                sx={styles}
-            />
+            {data ? (
+                <ChakraPaginator
+                    breakLabel='...'
+                    nextLabel='Next'
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel='Previous'
+                    display='flex'
+                    alignItems='stretch'
+                    justifyContent='center'
+                    listStyleType='none'
+                    sx={styles}
+                />
+            ) : (
+                <Skeleton width='100%' height='40px' />
+            )}
         </Center>
     );
 }

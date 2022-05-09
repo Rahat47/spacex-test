@@ -15,12 +15,12 @@ import { FiSearch } from 'react-icons/fi';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
 import { useAppSelector } from '../app/hooks';
 
-function MissionHeader() {
+function MissionHeader({ offset }: { offset: [number, number] }) {
     const { data } = useAppSelector(state => state.mission);
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box p='8' bg={mode('whatsapp.200', 'whatsapp.700')} rounded='md'>
+        <Box p='8' bg={mode('twitter.200', 'twitter.700')} rounded='md'>
             <Box maxW='7xl' mx='auto'>
                 <Stack
                     spacing='5'
@@ -40,7 +40,8 @@ function MissionHeader() {
                             color={mode('gray.600', 'gray.400')}
                             fontSize='sm'
                         >
-                            1-12 of {data?.length} Missions
+                            {`${offset[0] + 1}-${offset[1]}`} of {data?.length}{' '}
+                            Missions
                         </Text>
                     </Stack>
 

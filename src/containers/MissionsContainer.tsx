@@ -6,12 +6,13 @@ import { Mission } from '../types';
 
 function MissionsContainer() {
     const [items, setItems] = useState<Mission[]>([]);
+    const [offset, setOffset] = useState<[number, number]>([0, 9]);
 
     return (
         <>
-            <MissionHeader />
+            <MissionHeader offset={offset} />
             <MissionList items={items} />
-            <Paginator setItems={setItems} />
+            <Paginator setItems={setItems} setOffset={setOffset} />
         </>
     );
 }
