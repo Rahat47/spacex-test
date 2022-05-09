@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import missionReducer from '../features/mission/missionSlice';
+import filterReducer from '../features/filter/filterSlice';
 
 export const store = configureStore({
     reducer: {
         mission: missionReducer,
+        filter: filterReducer,
     },
 });
 

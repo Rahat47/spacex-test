@@ -1,6 +1,7 @@
 import {
     Box,
     Button,
+    Divider,
     Heading,
     HStack,
     Input,
@@ -13,14 +14,18 @@ import {
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { BsSun, BsMoonStarsFill } from 'react-icons/bs';
-import { useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import Filters from './Filters';
+import { setSearchValue } from '../features/filter/filterSlice';
 
 function MissionHeader({ offset }: { offset: [number, number] }) {
+    const dispatch = useAppDispatch();
     const { data } = useAppSelector(state => state.mission);
+    const { searchValue } = useAppSelector(state => state.filter);
     const { colorMode, toggleColorMode } = useColorMode();
 
     return (
-        <Box p='8' bg={mode('twitter.200', 'twitter.700')} rounded='md'>
+        <Box p='8' bg={mode('twitter.400', 'gray.700')} rounded='md'>
             <Box maxW='7xl' mx='auto'>
                 <Stack
                     spacing='5'
@@ -63,12 +68,18 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
                             }}
                             w='full'
                         >
-                            <InputRightElement color='gray.400'>
+                            <InputRightElement>
                                 <FiSearch />
                             </InputRightElement>
                             <Input
-                                placeholder='Search for a mission'
-                                borderColor={mode('gray.400', 'gray.500')}
+                                placeholder='Search by Rocket Name'
+                                _placeholder={{
+                                    color: mode('gray.600', 'gray.400'),
+                                }}
+                                value={searchValue}
+                                onChange={e =>
+                                    dispatch(setSearchValue(e.target.value))
+                                }
                             />
                         </InputGroup>
 
@@ -86,6 +97,13 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
                         </Button>
                     </HStack>
                 </Stack>
+            </Box>
+            <Divider my={4} />
+            <Box mt={4}>
+                <Heading my={4} size='lg' textAlign='center'>
+                    Filter Missions by:
+                </Heading>
+                <Filters />
             </Box>
         </Box>
     );
