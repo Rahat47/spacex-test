@@ -2,6 +2,7 @@ import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
 import { Mission } from '../types';
 
 import MissionCard from './MissionCard';
+import SkeletonList from './SkeletonList';
 
 function MissionList({ items }: { items: Mission[] }) {
     return (
@@ -14,6 +15,8 @@ function MissionList({ items }: { items: Mission[] }) {
             >
                 All Missions 🚀
             </Heading>
+
+            {!items.length && <SkeletonList />}
 
             <SimpleGrid
                 columns={{
