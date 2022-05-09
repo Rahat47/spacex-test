@@ -1,11 +1,7 @@
 import MissionHeader from '../components/MissionHeader';
 
-const MissionsContainer = () => {
-    return (
-        <>
-            <MissionHeader />
-        </>
-    );
-};
+function MissionsContainer() {
+    return <MissionHeader />;
+}
 
 export default MissionsContainer;
