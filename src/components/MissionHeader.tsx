@@ -7,6 +7,7 @@ import {
     Input,
     InputGroup,
     InputRightElement,
+    Spinner,
     Stack,
     Text,
     useColorMode,
@@ -23,7 +24,7 @@ import { setSearchValue } from '../features/filter/filterSlice';
 function MissionHeader({ offset }: { offset: [number, number] }) {
     const dispatch = useAppDispatch();
     const { data } = useAppSelector(state => state.mission);
-    const { searchValue } = useAppSelector(state => state.filter);
+    const { searchValue, loading } = useAppSelector(state => state.filter);
     const { colorMode, toggleColorMode } = useColorMode();
     const [searchTerm, setSearchTerm] = useState(searchValue);
 
@@ -31,14 +32,12 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
         setSearchTerm(e.target.value);
 
     const debouncedChangeHandler = useMemo(
-        () => debounce(changeHandler, 300),
+        () => debounce(changeHandler, 700),
         []
     );
 
     useEffect(() => {
-        if (searchTerm) {
-            dispatch(setSearchValue(searchTerm));
-        }
+        dispatch(setSearchValue(searchTerm));
 
         return () => {
             debouncedChangeHandler.cancel();
@@ -72,7 +71,7 @@ function MissionHeader({ offset }: { offset: [number, number] }) {
                     >
                         <InputGroup maxW={{ md: '80' }} w='full'>
                             <InputRightElement>
-                                <FiSearch />
+                                {loading ? <Spinner /> : <FiSearch />}
                             </InputRightElement>
                             <Input
                                 placeholder='Search by Rocket Name'

@@ -12,6 +12,7 @@ interface FilterSclice {
     launchDate: LaunchDate;
     launchSuccess: boolean | null;
     upcoming: boolean;
+    loading: boolean;
 }
 
 const initialState: FilterSclice = {
@@ -19,6 +20,7 @@ const initialState: FilterSclice = {
     launchDate: 0,
     launchSuccess: null,
     upcoming: false,
+    loading: false,
 };
 
 export const filterSlice = createSlice({
@@ -41,11 +43,19 @@ export const filterSlice = createSlice({
         setUpcoming: (state, action: PayloadAction<boolean>) => {
             state.upcoming = action.payload;
         },
+        setLoading: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
+        },
     },
 });
 
-export const { setSearchValue, setLaunchDate, setLaunchSuccess, setUpcoming } =
-    filterSlice.actions;
+export const {
+    setSearchValue,
+    setLaunchDate,
+    setLaunchSuccess,
+    setUpcoming,
+    setLoading,
+} = filterSlice.actions;
 
 export const useFilter = () => useAppSelector(state => state.filter);
 

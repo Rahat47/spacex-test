@@ -5,6 +5,8 @@ import MissionHeader from '../components/MissionHeader';
 import MissionList from '../components/MissionList';
 import Paginator from '../components/Paginator';
 import { Mission } from '../types';
+import { setMissions } from '../features/mission/missionSlice';
+import { setLoading } from '../features/filter/filterSlice';
 
 function MissionsContainer() {
     const dispatch = useAppDispatch();
@@ -18,22 +20,26 @@ function MissionsContainer() {
     const serchByRockerName = useCallback(
         (rockerName: string) => {
             if (rawData) {
-                const filteredData = rawData.filter(mission =>
-                    mission.rocket.rocket_name
-                        .toLowerCase()
-                        .includes(rockerName.toLowerCase())
-                );
+                if (rockerName) {
+                    const filteredData = rawData.filter(mission =>
+                        mission.rocket.rocket_name
+                            .toLowerCase()
+                            .includes(rockerName.toLowerCase())
+                    );
 
-                console.log(filteredData);
+                    dispatch(setMissions(filteredData));
+                    dispatch(setLoading(false));
+                } else {
+                    dispatch(setMissions(rawData));
+                    dispatch(setLoading(false));
+                }
             }
         },
-        [rawData]
+        [dispatch, rawData]
     );
 
     useEffect(() => {
-        if (searchValue) {
-            // serchByRockerName(searchValue);
-        }
+        serchByRockerName(searchValue);
     }, [searchValue, serchByRockerName]);
 
     return (
