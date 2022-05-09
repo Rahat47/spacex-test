@@ -1,10 +1,9 @@
 import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
-import { useAppSelector } from '../app/hooks';
+import { Mission } from '../types';
+
 import MissionCard from './MissionCard';
 
-function MissionList() {
-    const { data } = useAppSelector(state => state.mission);
-
+function MissionList({ items }: { items: Mission[] }) {
     return (
         <Container maxW='8xl'>
             <Heading
@@ -24,7 +23,7 @@ function MissionList() {
                 }}
                 gap='4'
             >
-                {data?.slice(0, 10).map(mission => (
+                {items.map(mission => (
                     <MissionCard key={mission.mission_name} mission={mission} />
                 ))}
             </SimpleGrid>
