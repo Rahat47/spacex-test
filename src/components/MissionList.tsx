@@ -1,6 +1,7 @@
 import { Container, Heading, SimpleGrid } from '@chakra-ui/react';
 import { useAppSelector } from '../app/hooks';
 import { Mission } from '../types';
+import ErrorResult from './ErrorResult';
 
 import MissionCard from './MissionCard';
 import SkeletonList from './SkeletonList';
@@ -20,7 +21,7 @@ function MissionList({ items }: { items: Mission[] }) {
             </Heading>
 
             {!items.length && loading && <SkeletonList />}
-            {!items.length && !loading && <p>No missions found</p>}
+            {!items.length && !loading && <ErrorResult />}
 
             <SimpleGrid
                 columns={{

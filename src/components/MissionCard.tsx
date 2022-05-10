@@ -1,6 +1,5 @@
 import {
     Badge,
-    Button,
     ButtonGroup,
     Center,
     Divider,
@@ -18,7 +17,12 @@ import {
 } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { MdOutlinePlace } from 'react-icons/md';
-import { VscLinkExternal, VscRocket } from 'react-icons/vsc';
+import {
+    VscCheckAll,
+    VscChromeClose,
+    VscLinkExternal,
+    VscRocket,
+} from 'react-icons/vsc';
 import { FaWikipediaW, FaYoutube } from 'react-icons/fa';
 
 import { Mission } from '../types';
@@ -112,6 +116,24 @@ function MissionCard({ mission }: MissionCardProps) {
                                 <ListIcon as={VscRocket} color='green.400' />
                                 <span>{rocket.rocket_name}</span>
                             </ListItem>
+                            <ListItem
+                                justifyContent='center'
+                                alignItems='center'
+                                display='flex'
+                            >
+                                {mission.upcoming ? (
+                                    <ListIcon
+                                        as={VscCheckAll}
+                                        color='green.400'
+                                    />
+                                ) : (
+                                    <ListIcon
+                                        as={VscChromeClose}
+                                        color='red.500'
+                                    />
+                                )}
+                                Upcoming
+                            </ListItem>
                         </List>
                     </Stack>
                     <Divider />
@@ -149,9 +171,6 @@ function MissionCard({ mission }: MissionCardProps) {
                         )}
                     </ButtonGroup>
                     <Divider />
-                    <Button type='button' variant='ghost'>
-                        View Details
-                    </Button>
                 </Stack>
             </Stack>
         </Center>
