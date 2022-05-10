@@ -1,12 +1,63 @@
-# Getting Started with Create React App
+# Getting Started with SpaceX Test Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It’s built with React. It’s fully responsive 100% built with **TypeScript**, **Redux**. It is a simple project which uses the SpaceX REST API to fetch data. It is deployed on [Netlify](https://netlify.com/).
 
-## Available Scripts
+## Screenshots
 
-In the project directory, you can run:
+#### Live Demo (https://space-x-testing.netlify.app/)
 
-### `yarn start`
+![App Screenshot](https://i.ibb.co/4KRsymF/screenshot-space-x-testing-netlify-app-2022-05-10-18-34-12.png)
+
+## Tech Stack
+
+-   [React](https://reactjs.org/)
+-   Written in [TypeScript](https://www.typescriptlang.org/)
+-   Uses [Chakra UI](https://chakra-ui.com/docs/getting-started), with Dark / Light Mode Support
+-   [Redux](https://react-redux.js.org/introduction/getting-started) for state management
+-   [Netlify](https://netlify.com/) for deployment
+-   [Jest](https://jestjs.io/) for testing
+
+# Requirements
+
+There are system requirements in order to install and this project and its components properly. Make sure that you are installed **node.js** and **Yarn**.
+
+### Recommended node and yarn
+
+![Node.js](http://rainbowit.net/docs/nuron-react/img/nuron/installation/1.png)
+
+![Yarn](http://rainbowit.net/docs/nuron-react/img/nuron/installation/2.png)
+
+## Install Yarn
+
+```bash
+   npm install yarn -g
+```
+
+## Running the project Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/Rahat47/spacex-test
+```
+
+Go to the project directory
+
+```bash
+  cd spacex-test
+```
+
+Install dependencies
+
+```bash
+  yarn
+```
+
+Start the dev server
+
+```bash
+  yarn Start
+```
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,12 +65,22 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
+## Running Tests
+
+Run the tests
+
+```bash
+    yarn test
+```
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Building App for Production
+
+    ```bash
+    yarn build
+    ```
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,18 +90,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+## Authors
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+-   [@Rahat47](https://www.github.com/Rahat47)
