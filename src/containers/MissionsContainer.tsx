@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { debounce } from 'lodash';
+import dayjs from 'dayjs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import MissionHeader from '../components/MissionHeader';
 import MissionList from '../components/MissionList';
 import Paginator from '../components/Paginator';
 import { Mission } from '../types';
 import { setMissions } from '../features/mission/missionSlice';
-import { setLoading } from '../features/filter/filterSlice';
+import { LaunchDate, setLoading } from '../features/filter/filterSlice';
 
 function MissionsContainer() {
     const dispatch = useAppDispatch();
@@ -18,29 +18,89 @@ function MissionsContainer() {
     const { rawData } = useAppSelector(state => state.mission);
 
     const serchByRockerName = useCallback(
-        (rockerName: string) => {
-            if (rawData) {
-                if (rockerName) {
-                    const filteredData = rawData.filter(mission =>
-                        mission.rocket.rocket_name
-                            .toLowerCase()
-                            .includes(rockerName.toLowerCase())
-                    );
-
-                    dispatch(setMissions(filteredData));
-                    dispatch(setLoading(false));
-                } else {
-                    dispatch(setMissions(rawData));
-                    dispatch(setLoading(false));
-                }
-            }
-        },
-        [dispatch, rawData]
+        (mission: Mission) =>
+            mission.rocket.rocket_name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase()),
+        [searchValue]
     );
 
+    const filterByDate = useCallback(
+        (mission: Mission) => {
+            if (launchDate === LaunchDate['Last week']) {
+                const missionlaunchDate = dayjs(mission.launch_date_utc);
+                const today = dayjs();
+                const lastWeek = today.subtract(7, 'day');
+                return missionlaunchDate.isAfter(lastWeek);
+            }
+            if (launchDate === LaunchDate['Last month']) {
+                const missionlaunchDate = dayjs(mission.launch_date_utc);
+                const today = dayjs();
+                const lastMonth = today.subtract(30, 'day');
+                return missionlaunchDate.isAfter(lastMonth);
+            }
+            if (launchDate === LaunchDate['Last year']) {
+                const missionlaunchDate = dayjs(mission.launch_date_utc);
+                const today = dayjs();
+                const lastYear = today.subtract(365, 'day');
+                return missionlaunchDate.isAfter(lastYear);
+            }
+            return true;
+        },
+        [launchDate]
+    );
+
+    const filterBySuccess = useCallback(
+        (mission: Mission) => {
+            if (launchSuccess !== null && launchSuccess !== 'both') {
+                if (launchSuccess === 'successful') {
+                    return mission.launch_success;
+                }
+                if (launchSuccess === 'unsuccessful') {
+                    return !mission.launch_success;
+                }
+            }
+            return true;
+        },
+        [launchSuccess]
+    );
+
+    const filterByUpcoming = useCallback(
+        (mission: Mission) => {
+            if (upcoming) {
+                return mission.upcoming;
+            }
+            return true;
+        },
+        [upcoming]
+    );
+
+    const filterData = useCallback(() => {
+        if (rawData) {
+            dispatch(setLoading(true));
+            const filteredData = rawData.filter(
+                mission =>
+                    serchByRockerName(mission) &&
+                    filterByDate(mission) &&
+                    filterBySuccess(mission) &&
+                    filterByUpcoming(mission)
+            );
+
+            dispatch(setMissions(filteredData));
+            dispatch(setLoading(false));
+        }
+    }, [
+        dispatch,
+        filterByDate,
+        filterBySuccess,
+        filterByUpcoming,
+        rawData,
+        serchByRockerName,
+    ]);
+
     useEffect(() => {
-        serchByRockerName(searchValue);
-    }, [searchValue, serchByRockerName]);
+        filterData();
+    }, [filterData]);
 
     return (
         <>

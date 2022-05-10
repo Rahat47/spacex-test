@@ -10,7 +10,7 @@ export enum LaunchDate {
 interface FilterSclice {
     searchValue: string;
     launchDate: LaunchDate;
-    launchSuccess: boolean | null;
+    launchSuccess: string | null;
     upcoming: boolean;
     loading: boolean;
 }
@@ -34,11 +34,7 @@ export const filterSlice = createSlice({
             state.launchDate = action.payload;
         },
         setLaunchSuccess: (state, action: PayloadAction<string>) => {
-            if (!action.payload || action.payload === 'null') {
-                state.launchSuccess = null;
-            } else {
-                state.launchSuccess = action.payload === 'successful';
-            }
+            state.launchSuccess = action.payload;
         },
         setUpcoming: (state, action: PayloadAction<boolean>) => {
             state.upcoming = action.payload;

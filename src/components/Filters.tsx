@@ -15,9 +15,7 @@ import {
 
 function Filters() {
     const dispatch = useAppDispatch();
-    const { launchDate, launchSuccess, upcoming } = useAppSelector(
-        state => state.filter
-    );
+    const { launchDate, upcoming } = useAppSelector(state => state.filter);
 
     return (
         <HStack spacing={8}>
@@ -41,12 +39,11 @@ function Filters() {
                 <Select
                     id='launchStatus'
                     placeholder='Launch Status'
-                    value={String(launchSuccess)}
                     onChange={e => {
                         dispatch(setLaunchSuccess(e.target.value));
                     }}
                 >
-                    <option value='null'>Both</option>
+                    <option value='both'>Both</option>
                     <option value='successful'>Successful</option>
                     <option value='unsuccessful'>Unsuccessful</option>
                 </Select>
