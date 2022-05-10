@@ -1,4 +1,10 @@
-import { Center, chakra, CSSObject, Skeleton } from '@chakra-ui/react';
+import {
+    Center,
+    chakra,
+    CSSObject,
+    Skeleton,
+    useBreakpointValue,
+} from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { useAppSelector } from '../app/hooks';
@@ -74,6 +80,14 @@ function Paginator({ setItems, setOffset }: PaginatorProps) {
         }
     };
 
+    const pageRange = useBreakpointValue({
+        base: 1,
+        md: 3,
+        lg: 4,
+    });
+
+    const flexDir = useBreakpointValue({ base: 'column', md: 'row' });
+
     return (
         <Center my={4}>
             {data ? (
@@ -81,7 +95,7 @@ function Paginator({ setItems, setOffset }: PaginatorProps) {
                     breakLabel='...'
                     nextLabel='Next'
                     onPageChange={handlePageClick}
-                    pageRangeDisplayed={5}
+                    pageRangeDisplayed={pageRange}
                     pageCount={pageCount}
                     previousLabel='Previous'
                     display='flex'
@@ -89,6 +103,7 @@ function Paginator({ setItems, setOffset }: PaginatorProps) {
                     justifyContent='center'
                     listStyleType='none'
                     sx={styles}
+                    flexDir={flexDir as 'row' | 'column'}
                 />
             ) : (
                 <Skeleton width='100%' height='40px' />

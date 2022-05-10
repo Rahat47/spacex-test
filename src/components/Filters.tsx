@@ -1,9 +1,10 @@
 import {
     FormControl,
     FormLabel,
-    HStack,
     Select,
+    Stack,
     Switch,
+    useBreakpointValue,
 } from '@chakra-ui/react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
@@ -18,7 +19,14 @@ function Filters() {
     const { launchDate, upcoming } = useAppSelector(state => state.filter);
 
     return (
-        <HStack spacing={8}>
+        <Stack
+            direction={useBreakpointValue({
+                base: 'column',
+                md: 'row',
+            })}
+            alignItems='center'
+            spacing={8}
+        >
             <FormControl>
                 <FormLabel htmlFor='launchDate'>Launch Date</FormLabel>
                 <Select
@@ -58,7 +66,7 @@ function Filters() {
                     onChange={e => dispatch(setUpcoming(e.target.checked))}
                 />
             </FormControl>
-        </HStack>
+        </Stack>
     );
 }
 
